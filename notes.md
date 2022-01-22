@@ -20,3 +20,40 @@ Automate various manual steps in deployment:
 ## Tools and Technology Prereqs
 
 [Course GitHub Repo with Resources](https://github.com/devopshydclub/vprofile-project/tree/master)
+
+### Software Installed for Course
+
+**Oracle VM VirtualBox**
+- `choco install virtualbox`
+
+**Git Bash**
+- Already installed
+
+**Vagrant**
+- `choco install vagrant`
+
+**Chocolatey**
+- Already installed, upgraded with `choco upgrade chocolatey`
+
+**JDK8**
+- `choco install jdk8`
+
+**Maven**
+- `choco install maven`
+
+**AWS CLI**
+- `choco install awscli`
+
+**Domain Purchase**
+
+**Docker Hub**
+- Host Docker images
+
+**SonarCloud**
+
+### AWS Account Setup
+
+- Free tier account
+- IAM with MFA
+- Billing Alarm
+- Certificate Setup
