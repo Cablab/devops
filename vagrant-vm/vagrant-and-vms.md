@@ -33,3 +33,30 @@ Using Oracle VM VirtualBox
 - When the login prompt is given, enter the username and password created during installation
 
 ## Vagrant
+
+With Vagrant, you don't do OS installations. VM setup happens through images called `Vagrant Boxes` that are stored in the Vagrant cloud. You can manage VMs wiht a `vagrantfile` file type
+
+### General Commands/Workflow
+
+- `vagrant up` reads the vagrantfile to see if the box/image is available on the local machine. If it is not, it goes to Vagrant Cloud and downloads the image, contacts the Hypervisor (program that manages VMs), and sets up the VM
+- `vagrant halt/reload/destroy` are some common overall VM management commands
+- `vagrant ssh` can get you into a Linux VM
+
+### Setting Up VM from Existing Vagrant Cloud Box
+
+- Search for the kind of VM you want at [Vagrant Cloud Box Search](https://app.vagrantup.com/boxes/search)
+- Click which you want and it'll show you a `Vagrantfile` section and a `New` section
+  - The `Vagrantfile` section shows what you need to put into a vagrantfile to make it work
+  - The `New` section shows what commands you need to run on a terminal to install
+- Run the commands in the `New` section to setup the VM in the working directory
+  - `vagrant init <box name>` will setup the box in the working directory and creat a Vagrantfile
+  - `vagrant up` will start the VM from the Vagrantfile in the working directory. If it's turning on for the first time, it will likely need to download and install the image for setup
+
+### Using the VM
+
+- Run the commands from the working directory where the Vagrantfile is defining the VM
+- `vagrant up` turns on the VM
+- `vagrant ssh` SSHs into the VM as the `vagrant` user
+- `vagrant halt` turns off the VM
+- `vagrant destroy` deletes the VM
+- `vagrant reload` reboots the VM
