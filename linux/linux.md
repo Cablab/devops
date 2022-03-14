@@ -137,3 +137,33 @@ Everything in Linux is a file!
   - Run `locate <search-term>`
 
 ## Users and Groups
+
+- Users and Groups are set up to control access to diretories and files
+- Every user has a unique **UID** (user ID)
+  - Root user has UID 0, Group ID 0, home directory of `/root`, and shell is `/bin/bash`
+  - Normal users have UID 1000-60000, Group ID of 1000-60000, home directory of `/home/username`, and shell is `/bin/bash`
+  - Service users (ssh, ftp) have UID 1-999, Group ID 1-999, home directory may be `/var/<service>` or `/etc/<service>` if present, and shell is `/sbin/nologin` or `/sbin/false` or something to prevent shell access
+- User's name and UID are stored in `/etc/passwd`
+  - Format is `<username>:<letter>:<UID>:<Group ID>:<Home Directory>:<Login Shell>`
+  - The `<letter>` may be `x`, indicating the user has a record in `/etc/shadow`
+  - User's passwords are stored in `/etc/shadow`, but they are encrypted
+- Group names and IDs are stored in `/etc/group`
+  - Format is `<Group Name>:<letter>:<Group ID>:<Users belonging to group>`
+
+### Commands and Manipulation
+
+- Command `id <user>` gives information about a user on the system
+- `useradd <username>` creates a new user on the system
+- `groupadd <group name>` creates a new group on the system
+- You can add users to a group in multiple ways:
+  - `usermod -aG <group name> <username>`
+    - The `G` flag makes the group a secondary group for the user
+    - The `g` flag makes the group a primary group for the user
+  - You can also edit the `/etc/group` file and append a comma separated list of usernames in the last field for the group that you want to add them to
+- `passwd <username>` will allow you to create or change a password for a user
+- `last` shows logins to the system
+- `lsof -u <username>` shows which files a user has opened
+- `userdel <username>` deletes a user
+  - With no options, the user's home directory stays in place
+  - Pass the `-r` flag to also delete the user's home directory
+- `groupdel <group name>` deletes the group
