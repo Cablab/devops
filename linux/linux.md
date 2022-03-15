@@ -167,3 +167,33 @@ Everything in Linux is a file!
   - With no options, the user's home directory stays in place
   - Pass the `-r` flag to also delete the user's home directory
 - `groupdel <group name>` deletes the group
+
+## File Permissions
+
+- Permissions on a link are different than the permission on what is being linked to
+- On a directory, `x` permissions means you can `cd` into it, `r` means you can `ls` the directory, and `w` means you can modify/delete the directory
+- Change ownership of a file with `chown`
+  - Format is `chown <flags> <user>:<group> <path-to-file>`
+  - You can pass `-R` to recursively change ownership of everything inside a directory
+  - The `:<group>` part is optional
+- Change permissions of a file with `chmod`
+  - Format is `chmod <u/g/o><+ or -><r/w/x> <path-to-file>`
+    - Entities are `u` for user, `g` for group, `o` for others
+    - Doing `+` adds the permission, doing `-` takes away the permission
+  - Another format is `chmod XYZ <path-to-file>`
+    - For `XYZ`, `X` is the number for User permissions, `Y` is the number for group permissions, and `Z` is the number for others' permissions
+    - The numbers used range from 0-7 and are determined by thinking of `rwx` as a 3-bit number. You put a 1 in the spot of permissions you want the entity to have and a 0 for permissions you want to remove
+      - For example, if you want an entity to have permissions `rw-`, that is `110` and would be represented as `6`
+    - Setting a file's permission to `-rwxr-xr--` would be `chmod 754 <file>`
+
+## sudo
+
+- Users in the `sudoers` file can use `sudo` before a command to execute it with root permissions
+  - File is `/etc/sudoers`. Nobody has permissions to write to the file by default as a security measure, but the root user can edit it with the `visudo` command
+  - Find the line that looks like `root ALL=(ALL) ALL` and put a line under it that looks like `<user> ALL=(ALL) ALL`. This will allow that user to execute commands with sudo
+- When a user does a `sudo` command, the system will ask the user to enter their password. You can skip this by editing the user's line in `/etc/sudoers` to look like `<user> ALL=(ALL) NOPASSWD: ALL`
+  - This may not be the preferred way to do it. Instead, you can create a file in path `/etc/sudoers.d/<username>` and add the `<username> ALL=(ALL) NOPASSWD: ALL` there. The presence of this file with the correct line is functionally the same
+  - You can also add a group into the sudoers file with `%<groupname>` in place of `<user>`
+- If you make a syntax error while editing the `/etc/sudoers` file, the OS will ask you what to do. You can enter `e` to go back to editing the file
+
+## Package Management
