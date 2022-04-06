@@ -197,3 +197,79 @@ Everything in Linux is a file!
 - If you make a syntax error while editing the `/etc/sudoers` file, the OS will ask you what to do. You can enter `e` to go back to editing the file
 
 ## Package Management
+
+- You can use the installed package manager, but you can also install things manually.
+
+### Manual Install
+
+- Search the web for packages containing the program you want to install specific to the OS you're running. As an example here, we'll try installed the `tree` program for CentOS 7. A binary package can be found/downloaded at this address: `http://mirror.centos.org/centos/7/os/x86_64/Packages/tree-1.6.0-10.el7.x86_64.rpm`
+- On your machine, use `curl` to download the binary and the `-o <filename>` flag to specify a file name to save it to
+- Use the package manager on your OS to install the package. For CentOS 7, it's `rpm -i <filename>`
+  - Other helpful flags are `-v` for verbose and `-h` for human readable
+
+### Package Manager Install
+
+- Use package manager to install. For Red Hat Linux, `yum` is the package manager
+- Yum has pointers to repositories on the internet where packages are stored in `/etc/yum.repos.d/`
+- You can `yum install <name>` and `yum remove <name>`
+- If you want to install something that isn't found in the existing repos, you can search the documentation online to learn how to install it. For example, let's look at the `jenkins` package.
+  - [Official Jenkins install docs](https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos)
+
+## Linux Services
+
+- Managed with `sudo systemctl <action> <service>`
+- Actions include the following:
+  - start, reload, stop, status
+  - **is-active**: simialr to status, but only returns whether or not it's active
+  - **enable**: enable tells a service to start at boot
+- The `systemctl` program is part of `systemd`, a type of service management daemon
+- Services have info stored in `/etc/systemd/`
+
+## Linux Processes
+
+- When you run `ps aux`, commands that are in `[]` are kernel threads
+- Running `ps -ef` will also show **PPID (Parent Process ID)**, which shows the PID of the process that created each running process
+- You can stop a process with the `kill` command
+  - If you kill a parent process, it should first shut down all child processes before stopping itself
+  - You can pass `-9` to the kill command to force a command to stop
+- If you grep the running processes from `ps aux` to get a list of PIDs that you want to kill, you can pipe them into `xargs kill -9` to kill them all
+  - `xargs` takes the output that was piped in and passes all of it as input to whatever command you're running
+- An **Orphan Process** is a child process where the parent was killed. Orphan processes usually get adopted by PID 1
+- A **Zombie Process** is a dead process that still has an entry in the process table. You can reboot the system to clear zombie processes, but there are other ways to clear them as well
+
+## Archiving
+
+### tar
+
+- Archive a file by compressing it and putting it into a tar ball with the following command: `tar -czvf <name-of-tar-ball>.tar.gz <directory-path>`
+  - `-c` is to create, `-z` is to compress, `-v` is verbose, `-f` is that you're passing in a file
+  - `.tar.gz` is the extension to use for your compressions. The `.tar` means it was created with the `tar` command and the `.gz` means it was compressed with the `-z` flag
+- Extract an archived file and uncompress it with `tar -xzvf <name-of-tar-ball>`
+  - Flags are the same as archiving, but `-x` for extract instead of the flag to create
+  - Can add `-C <path-to-directory>` to specify where to unzip the compressed file
+
+### zip
+
+- `zip` does not come installed, so you have to install it to use it
+- Zip with `zip -r <name-of-zip-file>.zip <directory-path>`
+  - `-r` is used to zip a whole directory
+  - `.zip` is the standard file extension
+- Unzip with `unzip <name-of-zip-file>`
+
+## Ubuntu Commands
+
+There are a few commands in Ubuntu that don't function exactly the same as what was learned above in Red Hat/CentOS. Here are a list of some of the important ones:
+
+- `useradd <username>` does not create a home directory, group, etc. Instead, you can use `adduser <username>`
+- By default, `visudo` opens in nano instead of vim. You can change that by setting `export EDITOR=vim`
+- The package manager on Ubuntu is different. If you want to manually install, you can search for packages on `https://packages.ubuntu.com/`, download with wget/curl, install with `dpkg -i <filename>`
+  - List all packages with `dpkg -l`
+  - Remove a packge with `dpkg -r <package-name>`
+- The package manager service is `apt`. Package repository information is stored in `/etc/apt/sources.list`
+- Before searching, you can update repositories to have current information with `apt update`
+- Once updated, you can search all possible packages with `apt search <search-term>`
+- Install what you want with `apt install <package-name>`
+  - Ubuntu will enable/start new services when you install them
+- Upgrade all installed packages with `apt upgrade`
+- Remove a package with `apt remove <package-name>`
+  - You can also remove all configs and data by running `apt purge <package-name>`
