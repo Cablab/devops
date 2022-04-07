@@ -52,6 +52,8 @@ With Vagrant, you don't do OS installations. VM setup happens through images cal
   - `vagrant init <box name>` will setup the box in the working directory and creat a Vagrantfile
   - `vagrant up` will start the VM from the Vagrantfile in the working directory. If it's turning on for the first time, it will likely need to download and install the image for setup
 
+**NOTE**: If you're looking for a minimal Ubuntu 18.04 / Bionic image, you can use `vagrant init hashicorp/bionic64`. Hashicorp, the people who run Vagrant, have this image specifically created to be easy and lite to use. See more on [Vagrant Boxes Docs](https://www.vagrantup.com/docs/boxes)
+
 ### Using the VM
 
 - Run the commands from the working directory where the Vagrantfile is defining the VM
