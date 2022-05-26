@@ -195,6 +195,7 @@ Everything in Linux is a file!
   - This may not be the preferred way to do it. Instead, you can create a file in path `/etc/sudoers.d/<username>` and add the `<username> ALL=(ALL) NOPASSWD: ALL` there. The presence of this file with the correct line is functionally the same
   - You can also add a group into the sudoers file with `%<groupname>` in place of `<user>`
 - If you make a syntax error while editing the `/etc/sudoers` file, the OS will ask you what to do. You can enter `e` to go back to editing the file
+- By default, running `visudo` will open the file in the default editor. If you want it to open in a different editor, you can set `export EDITOR=vim` to change the behavior
 
 ## Package Management
 
