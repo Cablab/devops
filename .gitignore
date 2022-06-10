@@ -1,2 +1,3 @@
 # Vagrant directories
 .vagrant/
+secrets/
