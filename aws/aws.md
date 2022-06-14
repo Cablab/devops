@@ -40,3 +40,51 @@
 
 - If you want an EC2 instance to have a static public IP address, you can allocate one through the `Elastic IPs` section of the EC2 service page
 - Once created, you can select it, click the `Actions` button, and associate it with an existing EC2 instance
+
+## AWS CLI
+
+- [https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html](AWS CLI Installation)
+- [Full AWS CLI Commands Reference Docs](https://awscli.amazonaws.com/v2/documentation/api/latest/index.html)
+- Create an IAM user in your account for awscli to have access, and set it up using access keys
+  - Attach policies directly and give it full admin access
+- When you're at the `Success` screen, grab the Access Key and Secret Access Key. Use them in the `aws configure` cli command to set up CLI access into your account
+  - Configured information will get saved in `~/.aws`
+  - Check where AWS CLI is configured with `aws sts get-caller-identity`
+  
+### AWS CLI for EC2
+
+- Check all instances with `aws ec2 describe-instances`
+- Commands to what we went through (EC2 instance creation, security groups, key pairs, etc.) in AWS CLI are shown in [AWS CLI Class PDF](AWS-Command-Line-Interface-Part-1.pdf)
+
+## Elastic Block Storage (EBS)
+
+- Virtual Hard disks, block-based storage
+- Run EC2 OS, store data from database, etc.
+- Place in specific Availability Zone and replicated in the same zone for redundancy
+- Snapshot take a backup of the entire volue
+- To attach to an EC2 instance, needs to be in the same Availability Zone as the instance
+
+### EBS Types
+
+[EBS Volume Types Doc](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) has good info about which to choose for what purpose
+
+- **General Purpose** - SSD - Most work loads
+  - Best combo of price vs speed
+- **Provisioned IOPS** - Large Databases
+- **Throughput Optimized HD** - Big Data and Data Warehouses
+- **Cold HDD** - File servers
+- **Magnetic** - Backups and archives
+
+### Recovery from Snapshot
+
+- Unmount the corrupted partition so data doesn't override what you want to backup
+- Detach the disk volume from the EC2 instance
+- Create a new volume from the snapshot
+  - When creating a new volume from a snapshot, you can change lots of settings like region, size, format, type, encryption, etc.
+  - This means that Snapshots aren't just for recovery backup, you can do things like move a volume to a different region or encrypt a volume that you didn't previously have encrypted without losing the data
+  - You can create an AMI (Amazon Image) from a snapshot if the snapshot is from the root directory volume
+  - You can share a snapshot with another AWS account
+- Attach the volume that was created from the snapshot to the EC2 instance
+- Mount the partition back where it was
+
+## Elastic Load Balancer (ELB)

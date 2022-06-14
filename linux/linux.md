@@ -237,6 +237,8 @@ Everything in Linux is a file!
   - `xargs` takes the output that was piped in and passes all of it as input to whatever command you're running
 - An **Orphan Process** is a child process where the parent was killed. Orphan processes usually get adopted by PID 1
 - A **Zombie Process** is a dead process that still has an entry in the process table. You can reboot the system to clear zombie processes, but there are other ways to clear them as well
+- Check which processes are accessing a file/directory with `lsof`
+  - May need to `cd` into the directory you want to check
 
 ## Archiving
 
@@ -274,3 +276,18 @@ There are a few commands in Ubuntu that don't function exactly the same as what 
 - Upgrade all installed packages with `apt upgrade`
 - Remove a package with `apt remove <package-name>`
   - You can also remove all configs and data by running `apt purge <package-name>`
+
+## Disk Management
+
+- Run `df -h` to see file system and where partitions are mounted
+- Run `fdisk -l` to list disks/partitions on the system
+- The partition management command is opened with `fdisk <path-to-disk>`
+- When in the command, `m` prints help messages
+- For a new partition on the disk, `n` to start creating a new partition. If it's the first partition on the disk, `p` (or default enter) to create primary partition. fdisk will find the first available block, so hit enter to use that one. Then you can specify how much space to add to the partition. You can do like `+3G` to add 3GB, or if you want to partition the entire available disk, you can just hit the default enter and it'll grab all available space
+- To format a disk partition, you can use `mkfs`. There are multiple format options availble, but `mkfs.ext4` can be good? Format a partition with `mkfs.<format> <path-to-disk-partition>`
+- Temporarily mount a partition to a specific place with `mount <path-to-disk-partition> <path-to-mount-location>`
+  - Unmount a partition with `unmount <path-where-mounted>`
+- Permanently mount a partition by adding a line in `/etc/fstab`
+  - Format is in 6 columns, they are `<path-to-partition> <mount-path> <partition-format> <options> <dumping?> <file system check?>`
+    - Example: `/dev/sdb1 /image/storage ext4 defaults 0 0`
+  - After adding the entry, run `mount -a` to execute all mount commands in the `/etc/fstab` file
