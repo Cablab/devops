@@ -88,3 +88,15 @@
 - Mount the partition back where it was
 
 ## Elastic Load Balancer (ELB)
+
+- **Frontend Port**: Listens for user requests on this port.
+- **Backend Port**: Services running on OS listen on this port
+
+### Types of Load Balancers
+
+- **Classic Load Balancing**: Listens to traffic, sees what port is in the request, load balances to instances/clusters based on the port/service (e.g. port 80 requests load balances across all web servers in cluster)
+  - Layer 3 (Network) load balancing
+- **Application Level Load Balancing**: Sees what service the user is trying to request (these may be different endpoints in the same web server), routes request to different instances/clusters based on which ones are supposed to handle the different kinds of requests (e.g. even for port 80 web requests, difference instances might handle `/videos` endpoints vs `/videos/new` endpoints)
+  - Layer 7 (Application) load balancing
+- **Network Load Balancing**: Can handle millions of requests per second. More expensive. Can have a static IP for the load balancer
+  - Layer 4 (Network) load balancing
