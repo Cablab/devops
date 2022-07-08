@@ -100,3 +100,22 @@
   - Layer 7 (Application) load balancing
 - **Network Load Balancing**: Can handle millions of requests per second. More expensive. Can have a static IP for the load balancer
   - Layer 4 (Network) load balancing
+
+### Load Balancer Setup
+
+- In the `Load Balancing` section of EC2, look at `Target Groups`. This allows you to group together EC2 instances and other types of AWS services for load balancing
+- Once you set up the target group settings in step 1, choose the instances you want to include in the target group and click `Include as pending below`
+- With the target group created, go to `Load balancers` section and choose which kind you need
+- Once created, you use the load balancer DNS name to access the services behind the load balancer
+- If you try to access the site with the load balancer and you get a 500 error, your security group on the EC2 instances themselves might not be allowing access from the load balancer. Update the security groups to allow access
+  - You can see that this might be the case by looking at the target group you created, checking the `Targets` tab, and seeing that their `Health status` is likely `unhealthy` because they can't get traffic through
+
+## Create Custom AMI
+
+- Select EC2 instance, Actions > Images and Templates > Create Image
+- Once created, it'll be listed in the `Images` section of the EC2 service sidebar for use
+
+### Launch Templates
+
+- With a custom AMI, you can easily create an EC2 instance from the image and have everything already set up. However, you still have to choose all the options when creating an EC2 instance
+- If you create a `Launch Template`, you can pre-select all the EC2 options and launch instances very quickly off the template
