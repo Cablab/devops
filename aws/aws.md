@@ -119,3 +119,35 @@
 
 - With a custom AMI, you can easily create an EC2 instance from the image and have everything already set up. However, you still have to choose all the options when creating an EC2 instance
 - If you create a `Launch Template`, you can pre-select all the EC2 options and launch instances very quickly off the template
+
+## Cloudwatch
+
+- **Metrics**: monitoring for AWS services
+  - **Alarms**: set alarm thresholds for various metrics, can trigger notifications via Amazon Simple Notification System (SNS)
+- **Events**: near real-time stream of events that describe changes in AWS
+- **Logs**: Monitor, store, access log files from AWS services
+
+### Default Monitoring Period
+
+- By default, the built-in CloudWatch monitoring updates every 5 minutes. If you want to make it update every 1 minute, select your EC2 instance, go to the `Monitoring` tab, and click the `Manage detailed monitoring` button in the top right
+- By enabling detailed monitoring, metrics will update every 1 minute. This will cost extra
+
+### Create Alarms
+
+- Go to the CloudWatch service, choose the `All Alarms` section from the sidebar, choose `Create Alarm`, and then choose what service/monitoring metrics you want to use to create the alarm
+
+## Elastic File System (EFS)
+
+- EFS is a shared file system that you can mount on your EC2 instances just like EBS. However, EFS is sharable across multiple instances
+- EFS is NFS based, so allow access to EC2 instances by allowing `NFS` access to the EC2 instances' security groups
+- Create an `Access Point` for the EFS. You'll mount onto EC2 instances through the Access Point
+- On the EC2 instance, follow directions from [Mounting EFS file systems](https://docs.aws.amazon.com/efs/latest/ug/mounting-fs.html) to mount it
+  - Specifically with an Access Point, you can follow the automatic mount with `/etc/fstab` steps on [Mounting EFS Automatically](https://docs.aws.amazon.com/efs/latest/ug/mount-fs-auto-mount-onreboot.html)
+
+## Autoscaling
+
+- Autoscaling can monitor and adjust compute resources (even full EC2 instances) to maintain performance
+- This works off CloudWatch, so it can add/remove capacity based on metrics in CloudWatch
+- Autoscaling uses launch templates to create new instances
+- Autoscaling uses a `Scaling Policy` to determine whether to increase or decrease resources
+- Create an Auto Scaling Group with launch template + AMI, ELB + target group, and proper security groups and the acaling will automatically create/destroy instances as needed

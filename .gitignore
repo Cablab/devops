@@ -1,3 +1,4 @@
 # Vagrant directories
 .vagrant/
 secrets/
+*.pem
