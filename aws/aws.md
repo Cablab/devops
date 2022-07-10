@@ -151,3 +151,43 @@
 - Autoscaling uses launch templates to create new instances
 - Autoscaling uses a `Scaling Policy` to determine whether to increase or decrease resources
 - Create an Auto Scaling Group with launch template + AMI, ELB + target group, and proper security groups and the acaling will automatically create/destroy instances as needed
+
+## Simple Storage Service (S3)
+
+- S3 is an object-based storage system. You can store anything at anytime and access it anywhere
+- `Objects` are stored in `Buckets`. Bucket names must be unique
+- Different from EFS because EFS gets mounted at OS level, but S3 is accessed programmatically
+- Like other AWS services, cost is based on performance levels and utilization. You can see the different kinds [S3 Storage Classes](https://aws.amazon.com/s3/storage-classes/)
+  - You can setup a policy to move data to a less performant storage class based on how recently it was accessed
+- Charges are based on:
+  - Size of Storage used
+  - Number of requests made
+  - Storage Class
+  - Data Transfer
+  - Region Replication
+
+### S3 Tutorial
+
+- If you create a Bucket and use the default setting to `Block all public access`, you cannot set any objects inside the bucket to be publicly available. You have to uncheck the Bucket setting, which will then leave permissions up to each individual object
+  - You may also have to enable Access Control Lists (ACLs) on the bucket so that individual objects can have their own permissions/owners
+
+### Static Website from S3
+
+- Create a bucket and upload all necessary files for the static webpage
+- Make all objects in the Bucket public
+- In the Bucket settings, enable `Static website hosting` and set the necessary options
+- In the Bucket settings, find the `Static website hosting` section and it'll have a public URL to access the static site
+
+### S3 Lifecycle Management
+
+- In the Bucket settings, the `Management` tab lets you set up `Lifecycle rules`
+- With Lifecycle rules, you can set an object to transition to a different `S3 Storage Class`, or even be fully deleted, after a set number of days. This can be good for archiving log data and things that you may not need after a set amount of time has passed 
+
+### S3 Object Replication
+
+- In the Bucket settings, the `Management` tab lets you set up `Replication rules`. This will allow you to replicate objects in your bucket to a bucket in a different AWS Region. This can be good for redundancy and disaster recovery
+
+## Relational DataBase (RDS)
+
+- Common services run by DB Admin: Installs, Patching, Monitoring, Performance Tuning, Backups, Scaling, Security, Hardware upgrades, Storage management
+- RDS is a distributed relational database service that will do most of the above things for you
