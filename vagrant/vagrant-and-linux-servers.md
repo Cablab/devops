@@ -30,7 +30,7 @@ SHELL
 ```
 
 - If the command you want to run requires put/confirmation, you will have to include that (like putting `-y` into any command that says to install a package)
-- If you make provisiong changes to the Vagrantfile for a running VM, you can't just apply the changes with ``vagrant reload`. You have to do `vagrant reload --provision`
+- If you make provisiong changes to the Vagrantfile for a running VM, you can't just apply the changes with `vagrant reload`. You have to do `vagrant reload --provision`
 - This also applies to `vagrant up`. If the VM has already been provisioned, it will not run the provision commands unless you pass `--provision` or run the `vagrant provision` command
 
 ## Website Setup
