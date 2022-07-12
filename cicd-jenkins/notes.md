@@ -233,3 +233,63 @@ pipeline{
   - Line 6 `vprofileRegistry` is the image repository (`https://<URI>`) from the ECR repository that you created
 
 ## CI + CD for Docker and Jenkins
+
+**Container Hosting Services**
+
+- Now that we have a docker image that's being built and saved, how/where do we run it?
+- You don't want to run containers directly on the Docker engine in production environments because they don't offer robust features and you have to manage the underlying engine
+- Kubernetes is a container hosting service that is good. You can run it standalone, with AWS EKS (Elastic Kubernetes Service), Azure AKS, GKE, Openshift, etc.
+- Until we learn Kubernetes, we will just use Amazon Elastic Container Service (ECS), which uses serverless compute (Fargate) or EC2 instance clusters as Docker container hosts
+
+**Setup**
+
+- Create ECS Cluster
+  - Create Cluster, give name, use desired VPC and all desired subnets
+  - AWS Fargate is pay-as-you-go, no managing EC2 instances, it's all handled for you with serverless compute
+  - Enable Monitoring so we can see logs of container instances as they come up
+- Create ECS Task Definition
+  - In the ECS sidebar, click on `Task definitions` and `Create new task definition`
+  - Name the container and use the URI from the ECR repository you created for the `Image URI`
+  - Set the correct port for you application. This class's project `vprofile` is a Tomcat web server on port TCP:8080
+  - In Step 2, choose Fargate or EC2 and choose CPU/Memory resource amounts
+- Create ECS Cluster Service
+  - Go back to the Cluster dashboard and click on the Cluster you created
+  - In the `Services` tab, click on `Deploy`
+  - Keep as `Service` type
+  - For `Family` choose the ECS Task Definition you just created
+  - Under Load Balancer, choose `Application Load Balancer` and create a new one
+  - Under Networking, create a new security group allowing TCP:80 (web traffic) and TCP:8080 (tomcat web server) from anywhere
+- Access Check!
+  - Make sure the target group is doing a health check on `8080` for this project, which you may have to change
+- Install `Pipeline: AWS Steps` plugin in Jenkins
+
+**Pipeline Example**
+
+- See [PAAC_CICD_Docker_ECR_ECS.txt](example-pipelines/PAAC_CICD_Docker_ECR_ECS.txt) for an example pipeline that publishes a Docker image to ECR and deploys it with ECS
+  - Line 7 `cluster` is the name of the created ECS cluster
+  - Line 8 `service` is the name of the service inside of the ECS cluster
+    - The service is the task inside of ECS that'll fetch the image from ECR and run it
+    - The service also includes elastic load balancers
+
+## Jenkins Master Slave Concept
+
+- The Jenkins server where Jenkins is running is considered the Master
+- If you need additional physical capacity to run jobs, Jenkins can configure slave nodes that it can run jobs on instead of, or in addition to, running jobs on the Master server
+- A slave node requires the following:
+  - A user that Jenkins will use to access the slave hose
+  - A directory fully owned by the above-mentioned user that is only used by Jenkins
+  - Necessary dependencies installed (JDK, JRE, Maven, etc.)
+- In Jenkins `Configure Jenkins`, you can then setup slave nodes that the Jenkins master can access to run jobs
+  - You need to setup some kind of authentication. You can use password-based auth, but that requires allowing password SSH on the slave node and configuring the slave node to be accessed via password without verifying hostname
+  - A better way to do this is setup access keys that the Jenkins master will use to SSH to the node
+- Make sure that Security Groups, ACLs, Firewalls allow access between the Jenkins master and slave nodes
+
+## Jenkins Security, Authentication, and Authorization
+
+- In `Configure Jenkins` > `Configure Global Security` you can allow users to sign-up or authenticate with an existing LDAP server
+- If you let users sign-up or sign-in, you need to manage access to permissions better. The matrix-based security can be good for granular control either by user or by project
+  - Matrix-based security by user or group will allow specified permissions to all projects
+  - Matrix-based project security Weill allow you to go to individual projects, `Configure` > `Enable project-based security`, and then set which users/groups have permissions specifically for each project
+- The `Role-based Authorization Strategy` plugin allows you to assign permissions to roles and then assign users into those roles
+  - After installing this plugin, do `Configure Jenkins` > `Configure Global Security` > `Role-based security` and save
+  - This will open up a new option in `Configure Jenkins` > `Manage and Assign Roles` where you can create roles, users, groups, and manage them all

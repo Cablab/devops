@@ -117,3 +117,15 @@ Automate various manual steps in deployment:
   - ElastiCache for memcached
   - Active MQ instead of manual RabbitMQ instance
   - CloudFront distribution to allow app delivery through CDN
+- Running a Jenkins server
+  - Manually creating Freestyle Projects in Jenkins
+  - Installing tools, plugins, integrations, creating credentials, and more Jenkins configuration
+  - Manually creating Jenkins Pipeline project with PaaC Jenkinsfile
+  - Hosting a SonarQube and Nexus server for use in Jenkins CI/CD Pipeline on a Java app
+  - Jenkins Pipeline with separate steps to build, test, code analyze, and store artifacts from project
+  - Sending post-build notifications to Slack
+  - Creating a Docker image from the final build artifact and hosting it in AWS ECR
+  - Using the AWS ECR Docker image to create an AWS ECS automated app deployment
+- AWS ECR repository creation to store custom created Docker images
+- AWS ECS Cluster, Task Definition, and Service creation
+  - Create a dynamic service on ECS Fargate cluster behind load balancer
