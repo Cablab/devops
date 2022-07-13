@@ -129,3 +129,6 @@ Automate various manual steps in deployment:
 - AWS ECR repository creation to store custom created Docker images
 - AWS ECS Cluster, Task Definition, and Service creation
   - Create a dynamic service on ECS Fargate cluster behind load balancer
+- Python for automation OS tasks
+  - Python OS library 
+  - Python Fabric library for running commands on remote hosts
