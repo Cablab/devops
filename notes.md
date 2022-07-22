@@ -142,3 +142,18 @@ Automate various manual steps in deployment:
   - Dynamic Ansible with variables, templates, handlers, facts, conditionals, loops, and more
   - Using Included Modules and hosted Collections for Modules supporting third party tools (AWS)
   - Ansible Galaxy repository space for user-defined roles
+- AWS VPC Web Project
+  - Creating a VPC in AWS with proper CIDR IP pool
+  - Creating Public and Private subnets across multiple availability zones in VPC with proper CIDR IP pools
+  - Internet Gateway setup to allow traffic flow in public subnets
+  - NAT Gateway setup to allow traffic flow to/from private subnets
+  - VPC Route Tables sending traffic from public/private subnets to internet gateway/NAT gateway respectively
+  - Bastion server in public subnet allowing access to private instances
+  - Load balancer in public subnet allowing access to web server in private subnet
+  - Network ACLs to manage traffic for the VPC
+  - Setting up VPC connections and Route Table entries between different VPCs
+- AWS Logging and CloudWatch
+  - Log streaming from EC2 to S3 and CloudWatch
+  - IAM Roles to allow keyless access between AWS Services
+  - CloudWatch Agent on Linux OS to enable log streaming directly from host
+  - CloudWatch logs, metrics, alarms
