@@ -1,0 +1,73 @@
+---
+
+### Setups up multiple web servers and creates some MySQL info
+
+- name: Setup WebServer
+  hosts: web_server_group
+  become: yes
+  # gather_facts: False # skips setup module fact gathering when False
+  tasks:
+
+  - name: Install Apache httpd
+    ansible.builtin.yum:
+      name: httpd
+      state: present
+
+  - name: Start & Enable HTTPD
+    ansible.builtin.service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  - name: Copy index.html to Web Server
+    ansible.builtin.copy:
+      src: index.html
+      dest: /var/www/html/index.html
+
+- name: Setup DBServer
+  hosts: db_server_group
+  become: yes
+
+  # See variable directories for variables
+  # vars:
+  #   dbname: groups
+  #   dbuser: devops
+  #   dbpass: admin123
+
+  tasks:
+
+  - name: Print dbname variable
+    ansible.builtin.debug:
+      var: dbname
+
+  - name: Print dbuser variable
+    ansible.builtin.debug:
+      msg: "Value of dbuser is {{ dbuser }}"
+
+  - name: Install MySQL server
+    ansible.builtin.yum:
+      name: mariadb-server
+      state: present
+
+  - name: Install Python MySQL
+    yum:
+      name: MySQL-python
+      state: present
+      
+  - name: Start & Enable mariadb service
+    ansible.builtin.service:
+      name: mariadb
+      state: started
+      enabled: yes 
+
+  - name: Create a new database with variable name
+    mysql_db:
+      name: "{{ dbname }}"
+      state: present
+
+  - name: Create database user with variable creds
+    mysql_user:
+      name: "{{ dbuser }}"
+      password: "{{ dbpass }}"
+      priv: '*.*:ALL'
+      state: present

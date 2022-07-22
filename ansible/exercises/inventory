@@ -1,0 +1,19 @@
+web01 ansible_host=<private-IP> # CentOS
+web02 ansible_host=<private-IP> # CentOS
+db01 ansible_host=<private-IP> ansible_user=ubuntu # Ubuntu
+
+[web_server_group]
+web01 
+web02
+web03
+
+[db_server_group]
+db01
+
+[dc_ohio:children]
+web_server_group
+db_server_group
+
+[dc_ohio:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=test-key

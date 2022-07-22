@@ -1,0 +1,14 @@
+- name: Start and Enable NTP on RedHat
+  ansible.builtin.service:
+    name: ntpd
+    state: started
+    enabled: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Deploy NTP conf file for RedHat
+  ansible.builtin.template:
+    src: ntp_redhat.conf.j2
+    dest: "{{ ntp_path }}"
+  when: ansible_os_family == "RedHat"
+  notify:
+  - Restart NTP on RedHat  

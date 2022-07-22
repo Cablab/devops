@@ -1,0 +1,65 @@
+- name: Install NTP on CentOS
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+  when: ansible_distribution == "CentOS"
+  loop:
+    - ntp
+    - wget
+    - git
+    - zip
+    - unzip
+
+- name: Install NTP on Ubuntu
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes # optionally apt update if necessary
+    cache_valid_time: 86400 # only updates cache once per day
+  when: ansible_distribution == "Ubuntu"
+  loop:
+    - ntp
+    - wget
+    - git
+    - zip
+    - unzip
+
+- include_tasks: setup-RedHat.yaml
+  when: ansible_os_family == "RedHat"
+
+- include_tasks: setup-Debian.yaml
+  when: ansible_os_family == "Debian"
+
+- name: Add Group
+  ansible.builtin.group:
+    name: devops
+    state: present
+
+- name: Add Users
+  ansible.builtin.user:
+    name: "{{ item }}"
+    state: present
+    groups: devops
+  loop: "{{ usernames }}" # from ../defaults/main.yml
+    # Manually declaring each user in the loop
+    # - user1
+    # - user2
+    # - user3
+    # - user4
+
+- name: Banner File /etc/motd
+  ansible.builtin.copy:
+    # content: will copy the text to the specified location
+    content: "This {{ ansible_distribution }} is managed by Ansible.\n"
+    dest: /etc/motd
+
+- name: Create directory for dev data
+  ansible.builtin.file:
+    path: /opt/devdata
+    state: directory
+    mode: 0775
+
+- name: Deploy dev data file
+  ansible.builtin.copy:
+    src: dev.txt
+    dest: /opt/devdata/dev.txt

@@ -1,0 +1,14 @@
+- name: Start and Enable NTP on Debian
+  ansible.builtin.service:
+    name: ntp
+    state: started
+    enabled: yes
+  when: ansible_os_family == "Debian"
+
+- name: Deploy NTP conf file for Debian
+  ansible.builtin.template:
+    src: ntp_debian.conf.j2
+    dest: "{{ ntp_path }}"
+  when: ansible_os_family == "Debian"
+  notify:
+  - Restart NTP on Debian

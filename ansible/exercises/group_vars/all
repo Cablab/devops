@@ -1,0 +1,13 @@
+# Variables accessible by ALL hosts in the Inventory file
+dbuser: testadmin
+dbpass: admin123
+dbname: redhat
+usernames:
+- user11
+- user12
+- user13
+- user14
+ntp0: 0.us.pool.ntp.org
+ntp1: 1.us.pool.ntp.org
+ntp2: 2.us.pool.ntp.org
+ntp3: 3.us.pool.ntp.org

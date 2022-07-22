@@ -1,0 +1,111 @@
+---
+
+### Installs services, creates users and groups, and sets up
+### service config template files on different systems based
+### on which family of Linux OS they are running
+
+- name: Provisioning Servers
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: Install NTP on CentOS
+      ansible.builtin.yum:
+        name: "{{ item }}"
+        state: present
+      when: ansible_distribution == "CentOS"
+      loop:
+        - ntp
+        - wget
+        - git
+        - zip
+        - unzip
+
+    - name: Install NTP on Ubuntu
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes # optionally apt update if necessary
+        cache_valid_time: 86400 # only updates cache once per day
+      when: ansible_distribution == "Ubuntu"
+      loop:
+        - ntp
+        - wget
+        - git
+        - zip
+        - unzip
+
+    - name: Start and Enable NTP on RedHat
+      ansible.builtin.service:
+        name: ntpd
+        state: started
+        enabled: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Start and Enable NTP on Debian
+      ansible.builtin.service:
+        name: ntp
+        state: started
+        enabled: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Add Group
+      ansible.builtin.group:
+        name: devops
+        state: present
+
+    - name: Add Users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+        groups: devops
+      loop: "{{ usernames }}" # from ./group_vars/all
+        # Manually declaring each user in the loop
+        # - user1
+        # - user2
+        # - user3
+        # - user4
+
+    - name: Banner File /etc/motd
+      ansible.builtin.copy:
+        # content: will copy the text to the specified location
+        content: "This {{ ansible_distribution }} is managed by Ansible.\n"
+        dest: /etc/motd
+
+    - name: Deploy NTP conf file for RedHat
+      ansible.builtin.template:
+        src: templates/ntp_redhat.conf.j2
+        dest: /etc/ntp.conf
+      when: ansible_os_family == "RedHat"
+      notify:
+      - Restart NTP on RedHat
+
+    - name: Deploy NTP conf file for Debian
+      ansible.builtin.template:
+        src: templates/ntp_debian.conf.j2
+        dest: /etc/ntp.conf
+      when: ansible_os_family == "Debian"
+      notify:
+      - Restart NTP on Debian
+
+    - name: Create directory for dev data
+      ansible.builtin.file:
+        path: /opt/devdata
+        state: directory
+        mode: 0775
+
+  handlers:
+    - name: Restart NTP on RedHat
+      ansible.builtin.service:
+        name: ntpd
+        state: restarted
+        enabled: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Restart NTP on Debian
+      ansible.builtin.service:
+        name: ntp
+        state: restarted
+        enabled: yes
+      when: ansible_os_family == "Debian"
+    

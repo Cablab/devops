@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: False
+
+  tasks:
+    - name: Create Key Pair
+      amazon.aws.ec2_key:
+        name: ansible-test-kp
+        region: us-west-2
+      register: keyout
+
+    - name: Save private key
+      ansible.builtin.copy:
+        content: "{{ keyout.key.private_key }}"
+        dest: ./ansible-test-kp.pem
+      when: keyout.changed # only save if key doesn't exist and gets newly created
+
+    - name: Create EC2 Server
+      amazon.aws.ec2:
+        key_name: ./ansible-test-kp.pem
+        instance_type: t2.micro
+        image: ami-0b152cfd354c4c7a4 # us-west-2 Ubuntu18
+        region: us-west-2
+        wait: yes
+
+        ### The options below designate that AWS should only ever have 1
+        ### EC2 instance in existance that contains the specified tags. The
+        ### tags are designated in `instance_tags` and the count increments
+        ### if an instance is found containing the tags in `count_tags`. If 
+        ### the number of found instances is already equal to `exact_count`, 
+        ### no additional instances will be created
+
+        exact_count: 1 
+        instance_tags:
+          Name: db01
+          db: postgres
+        count_tags:
+          Name: db01
+          db: postgres

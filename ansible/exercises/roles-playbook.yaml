@@ -1,0 +1,24 @@
+---
+
+### Installs services, creates users and groups, and sets up
+### service config template files on different systems based
+### on which family of Linux OS they are running
+
+- name: Provisioning Servers
+  hosts: all
+  become: yes
+  roles:
+    - post-install
+
+
+### Below is an example of how to specify which role to run
+### while also manually overriding any variables it might
+### use in the role with values you want to set at runtime
+
+# - name: Provisioning Servers
+#   hosts: all
+#   become: yes
+#   roles:
+#     - role:  post-install
+#       vars:
+#         dbuser: admin
