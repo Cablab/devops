@@ -88,6 +88,10 @@ Automate various manual steps in deployment:
 - Click into the (now pending) cert and you should see `CNAME name` and `CNAME value` fields. You need to create a DNS record on your domain with these values so AWS can verify the cert
 - Cert verification can take up to 48 hours
 
+## Stupid VIM/Git Bash Paste
+
+- While in edit mode (default after `esc`), type `"*p` to paste clipboard
+
 ## Things Learned
 
 - Virtualization of separate server instances
@@ -132,3 +136,9 @@ Automate various manual steps in deployment:
 - Python for automation OS tasks
   - Python OS library 
   - Python Fabric library for running commands on remote hosts
+- Ansible for automating fleet management, provisioning, and configuration
+  - Playbooks for defining multiple tasks to run in a single job
+  - Roles to separate execution based on various unique host properties (server type, OS family, etc.)
+  - Dynamic Ansible with variables, templates, handlers, facts, conditionals, loops, and more
+  - Using Included Modules and hosted Collections for Modules supporting third party tools (AWS)
+  - Ansible Galaxy repository space for user-defined roles
