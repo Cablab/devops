@@ -99,7 +99,7 @@ The purpose of this project is to take the VProfile project that exists in the A
 
 **Update Beanstalk Health Check Endpoint**
 
-- For our custom tomcat application, we'll use `/login` as the health check endpoint. Before we takedown the sample application and put in our custom one, we need to update the health check endpoint
+- For our custom tomcat application, we'll use `/login` as the health check endpoint. Before we take down the sample application and put in our custom one, we need to update the health check endpoint
 - Got to Elastic Beanstalk > Environments > Choose the created environment > `Configuration` in sidebar
 - Edit the `Load balancer` section and:
   - `Add Listener` for port 443 on HTTPS and choose your existing SSL certificate

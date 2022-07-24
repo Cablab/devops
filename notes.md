@@ -157,3 +157,8 @@ Automate various manual steps in deployment:
   - IAM Roles to allow keyless access between AWS Services
   - CloudWatch Agent on Linux OS to enable log streaming directly from host
   - CloudWatch logs, metrics, alarms
+- AWS CI/CD Pipeline
+  - AWS CodeCommit for VCS and migration from GitHub to CodeCommit repo
+  - AWS CodeBuild to automate build process and artifact creation/storage
+  - AWS Code Pipeline triggering CodeBuild jobs upon CodeCommit repo changes and deployment to Beanstalk Environment
+- Docker!
