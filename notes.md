@@ -161,4 +161,8 @@ Automate various manual steps in deployment:
   - AWS CodeCommit for VCS and migration from GitHub to CodeCommit repo
   - AWS CodeBuild to automate build process and artifact creation/storage
   - AWS Code Pipeline triggering CodeBuild jobs upon CodeCommit repo changes and deployment to Beanstalk Environment
-- Docker!
+- Docker
+  - Using Dockerfile to create custom images from an existing base image
+  - Multi-staged Dockerfile to use containers to build artifact and copy them to the final image
+  - Docker Compose to orchestrate running multiple containers simultaneously
+  - Containerization of full-stack web app running on single physical host
