@@ -1,0 +1,37 @@
+# different objects have different versions, so check!
+apiVersion: v1
+
+# kind specifies the kubernetes object represented
+kind: Pod
+metadata:
+  name: nginx12
+  namespace: kubekart
+
+  labels:
+    # labels are just key-value tags
+    app: frontend
+
+spec:
+
+  # containers is a list of containers that will run in the pod
+  containers:
+
+    # name is the "hostname" of the container
+  - name: nginx
+
+    # image is the container image to use
+    image: nginx:1.14.2
+
+    # env sets variables for use below
+    env:
+    - name: MESSAGE
+      value: "Hello World!"
+    
+    # command is the command to run upon pod launch
+    command: ["/bin/echo"]
+    
+    # args are passed into the command above
+    args: ["$(MESSAGE)"]
+
+    ports:
+    - containerPort: 80

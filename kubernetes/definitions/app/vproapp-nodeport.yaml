@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-service
+spec:
+  ports:
+  - port: 8090
+    nodePort: 30001
+    # targetPort can specify a port number
+    # targetPort can also use the name field as defined 
+    # in the Pod yaml file under spec.containers[i].ports[i].name
+    targetPort: vproapp-port
+    protocol: TCP
+  selector:
+    app: vproapp
+  type: NodePort

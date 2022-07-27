@@ -166,3 +166,15 @@ Automate various manual steps in deployment:
   - Multi-staged Dockerfile to use containers to build artifact and copy them to the final image
   - Docker Compose to orchestrate running multiple containers simultaneously
   - Containerization of full-stack web app running on single physical host
+- Kubernetes
+  - Local cluster setup with minikube and VM
+  - Kops for AWS K8s setup
+  - `kubectl` access through `~/.kube/config` file
+  - Namespaces for grouping resources in a cluster
+  - Pods, ReplicaSets, and Deployments
+  - Services, including NodePort, LoadBalancer, and ClusterIP
+  - Attaching Volumes to a Pod declaratively
+  - ConfigMaps and obfuscating plaintext credentials with Secrets
+  - Ingress mapping to route external requests to Pod services
+  - Taints and Tolerations for Pod affinity
+  - Requests and Limits to manage Pod usage of physical resources
