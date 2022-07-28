@@ -1,0 +1,13 @@
+Resources: # Define an AWS resource to create
+  MyInstance: # this is a Logical ID, can be referred to in this file
+    Type: AWS::EC2::Instance
+    Properties: # Define config settings for the resource Type
+      InstanceType: t2.micro
+      ImageId: ami-098e42ae54c764c35
+      Tags:
+      - Key: "Name"
+        
+        # !Join is an intrinsic function that will concatenate the 
+        # arguments passed by putting them together with the
+        # specific separator character
+        Value: !Join ["-", [my, instance, from, cloudformation]] # inline version

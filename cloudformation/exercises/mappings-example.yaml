@@ -1,0 +1,47 @@
+
+# Mappings defines variables that can be referenced with
+# !FindInMap when defining Resources
+Mappings: 
+  RegionMap: # The name of a map created in `Mappings`
+    us-east-1: # The name of a sub-map inside of `RegionMap`
+      "HVM64": "ami-0ff8a91507f77f867" # A key-value pair in `us-east-1`
+    us-west-1: 
+      "HVM64": "ami-0bdb828fd58c52235"
+    eu-west-1: 
+      "HVM64": "ami-047bb4163c506cd98"
+    ap-southeast-1: 
+      "HVM64": "ami-08569b978cc4dfa10"
+    ap-northeast-1: 
+      "HVM64": "ami-06cd52961ce9f0d85"
+
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+
+      # !FindInMap allows you to reference Mappings by passing the following
+      # arguments: <name-of-map-in-mappings>, <name-of-submap>, <key-name>
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref AWS::Region
+        - HVM64
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [my, instance, from, cloudformation]] # inline version
+      SecurityGroups:
+      - !Ref VprofileSG
+
+  VprofileSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow ssh & http from MyIP
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: <my-IP-address>

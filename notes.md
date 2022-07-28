@@ -182,3 +182,10 @@ Automate various manual steps in deployment:
   - Terraform resource creation for IaaC
   - Storing backend tfstate remotely for dynamic access
   - Terraform provisioner resources for local execution, remote execution, and file copying
+- CloudFormation
+  - Creating Stacks from custom Templates
+  - Using Parameters to allow user input at Stack execution
+  - Printing values and exposing data to subsequent Templates with Output
+  - Creating variable Mappings for reference in Resource definitions
+  - Intrinsic Functions
+  - `AWS::CloudFormation::Init` for provisioning commands upon resource creation

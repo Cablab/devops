@@ -1,0 +1,11 @@
+# Example showing how to Update an existing stack (first-example.yaml)
+
+Resources: # Define an AWS resource to create
+  MyInstance: # this is a Logical ID, can be referred to in this file
+    Type: AWS::EC2::Instance
+    Properties: # Define config settings for the resource Type
+      InstanceType: t2.micro
+      ImageId: ami-098e42ae54c764c35
+      Tags:
+      - Key: "Name"
+        Value: "MyFirstInstance"

@@ -1,0 +1,31 @@
+Resources: # Define an AWS resource to create
+  MyInstance: # this is a Logical ID, can be referred to in this file
+    Type: AWS::EC2::Instance
+    Properties: # Define config settings for the resource Type
+      InstanceType: t2.micro
+      ImageId: ami-098e42ae54c764c35
+      Tags:
+      - Key: "Name"
+        
+        # !Join is an intrinsic function that will concatenate the 
+        # arguments passed by putting them together with the
+        # specific separator character
+        Value: !Join ["-", [my, instance, from, cloudformation]] # inline version
+
+      SecurityGroups:
+      - !Ref VprofileSG # refer to Logical ID of security group defined below
+
+  VprofileSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow ssh & http from MyIP
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: <my-IP-address>
+          
