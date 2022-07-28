@@ -92,6 +92,20 @@ Automate various manual steps in deployment:
 
 - While in edit mode (default after `esc`), type `"*p` to paste clipboard
 
+## Where to Go
+
+**Specializations**:
+
+- Cloud Computing and Automation - AWS, Google, Azure, etc.
+- Pure Automation - Ansible, CI/CD, Python, etc.
+- Containerization - Docker, Kubernetes, Swarm, openshift, etc.
+
+**Certifications**:
+
+- Cloud certs
+- K8s
+- Security for DevSecOps
+
 ## Things Learned
 
 - Virtualization of separate server instances
