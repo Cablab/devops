@@ -2,3 +2,9 @@
 .vagrant/
 secrets/
 *.pem
+
+# Terraform generated files
+*.tfstate
+*.tfstate.backup
+*.terraform.lock.hcl
+.terraform/

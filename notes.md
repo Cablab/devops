@@ -178,3 +178,7 @@ Automate various manual steps in deployment:
   - Ingress mapping to route external requests to Pod services
   - Taints and Tolerations for Pod affinity
   - Requests and Limits to manage Pod usage of physical resources
+- Terraform
+  - Terraform resource creation for IaaC
+  - Storing backend tfstate remotely for dynamic access
+  - Terraform provisioner resources for local execution, remote execution, and file copying
